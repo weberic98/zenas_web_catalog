@@ -13,11 +13,8 @@ def get_load_list():
         my_cur.execute("select * from catalog_for_website")
         return my_cur.fetchall()
 
-# Add a button to load the fruit
-if streamlit.button('Get Fruit List'):
-    my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-    my_data_rows = get_load_list()
-    my_cnx.close()
-    streamlit.dataframe(my_data_rows)
+clothing_selected = streamlit.multiselect("Pick a sweatsuit color or style:", list(get_load_list.index))
+clothing_to_show = my_clothing_list.loc[clothing_selected]
+
 
 
