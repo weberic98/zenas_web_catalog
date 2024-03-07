@@ -6,21 +6,21 @@ from urllib.error import URLError
 
 streamlit.title('Zena\'s Amazing Athleisure Catalog')
 
-#streamlit.header("Pick a sweatsuit color or style")
-#Snowflake-related functions
-def get_load_list():
-    with my_cnx.cursor() as my_cur:
-        my_cur.execute("select * from catalog_for_website")
-        return my_cur.fetchall()
-
+# connect to snowflake
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_data_rows = get_load_list()
-my_cnx.close()
-streamlit.dataframe(my_data_rows)
+my_cur = my_cnx.cursor()
 
-my_clothing_list = my_data_rows
+# run a snowflake query and put it all in a var called my_catalog
+my_cur.execute("select color_or_style from catalog_for_website")
+my_catalog = my_cur.fetchall()
 
-# Let's put a pick list here so they can pick the fruit they want to include 
-clothing_selected = streamlit.selectbox("Pick some clothing:", list(my_data_rows))
-clothing_to_show = my_clothing_list.loc[clothing_selected]
+# put the dafta into a dataframe 
+df = pandas.DataFrame(my_catalog)
+
+# put the first column into a list 
+color_list = df[0].values.tolist()
+
+# Let's put a pick list here so they can pick the clothing they want
+clothing_selected = streamlit.selectbox("Pick some clothing:", list(color_list))
+
 
