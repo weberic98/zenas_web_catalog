@@ -18,7 +18,7 @@ my_data_rows = get_load_list()
 my_cnx.close()
 streamlit.dataframe(my_data_rows)
 
-my_clothing_list = my_data_rows.set_index('COLOR_OR_STYLE')
+#my_clothing_list = my_data_rows.set_index('COLOR_OR_STYLE')
 
 # Let's put a pick list here so they can pick the fruit they want to include 
 #clothing_selected = streamlit.multiselect("Pick some clothing:", list(my_clothing_list))
